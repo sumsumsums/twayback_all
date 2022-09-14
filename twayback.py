@@ -281,7 +281,7 @@ def get_filename_for_textfile(tweet_number):
     filename = f"{text_dir}tweets_{tweet_year}_{tweet_month}.txt"
 
     return filename
-  
+
 # download tweet as screenshots
 def tweet_download_image(url_dict):
     wayback_screenshots = {}
@@ -335,7 +335,7 @@ def tweet_download_text_repeat(trials):
     error_occured = False
     futures = {}
 
-    with FuturesSession(max_workers=15) as session:
+    with FuturesSession(max_workers=4) as session:
         for number, url in tqdm(futures_retry.items(), position=0, leave=True):
             futures[number] = session.get(url, headers=headers, timeout=30)
 
@@ -364,10 +364,10 @@ def find_text_in_tweet(result):
         tweet = bs4.BeautifulSoup(result.content, "html.parser").find(attrs={"data-testid": "tweetText"})
         if tweet != None:
             return tweet.getText()
-          
+
     except AttributeError as att:
         print(att)
-  
+
 # download tweet as text / html
 def tweet_download_text(url_dict):
     futures = {}
@@ -378,7 +378,7 @@ def tweet_download_text(url_dict):
 
     error_occured = False
 
-    with FuturesSession(max_workers=15) as session:
+    with FuturesSession(max_workers=4) as session:
         for number, url in tqdm(url_dict.items(), position=0, leave=True):
             futures[number] = session.get(url, headers=headers, timeout=30)
 
@@ -400,7 +400,7 @@ def tweet_download_text(url_dict):
                     f.write(result.content)
 
         except AttributeError as att:
-            print(att)        
+            print(att)
         except Exception as exp:
             print(exp)
             if not dont_spam_user:
@@ -421,7 +421,7 @@ def tweet_download_text(url_dict):
         error_occured = tweet_download_text_repeat(max_trials)
 
 # download tweet
-def download_for_tweets(url_dict):        
+def download_for_tweets(url_dict):
     global filename_csv
 
     with open(f"{filename_csv}", "a") as fcsv:
@@ -434,7 +434,7 @@ def download_for_tweets(url_dict):
 
     if download_text == True or download_html == True:
         tweet_download_text(url_dict)
-        
+
 # download tweet
 def download_call():
 
@@ -468,7 +468,7 @@ def download_call():
         print(f"Screenshots have been successfully saved!"
               f"\nYou can find screenshots inside the folder "
               f"{Back.MAGENTA + Fore.WHITE + targetdir + Back.BLACK + Fore.WHITE}.")
-        
+
 # set parameters
 colorama.init(autoreset=True)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
