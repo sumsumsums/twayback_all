@@ -109,5 +109,4 @@ The larger the number of tweets your query has the higher your chances of encoun
  - By definition, if an account is suspended or no longer exists, all their Tweets would be considered deleted.
  - Custom date range is not about when Tweets were made, but rather when they were _archived_. For example, a Tweet from 2011 may have been archived today.
 
-## Call for help 🙏
 
